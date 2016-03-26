@@ -61,8 +61,17 @@ function posFullHeight(percentUsed, moveRight)
   win:setFrame(f)
 end
 
-hs.hotkey.bind(hyper, "r", function() posFullHeight(0.7, true) end)
+-- left most
 hs.hotkey.bind(hyper, "g", function() posFullHeight(0.7, false) end)
+-- right most 
+hs.hotkey.bind(hyper, "r", function() posFullHeight(0.7, true) end)
+
+-- left half
+hs.hotkey.bind(hyper, "t", function() posFullHeight(0.5, false) end)
+-- full screen
+hs.hotkey.bind(hyper, "n", function() posFullHeight(1.0, false) end)
+-- right half
+hs.hotkey.bind(hyper, "s", function() posFullHeight(0.5, true) end)
 
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", reloadConfig)
