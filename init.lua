@@ -63,7 +63,7 @@ end
 
 -- left most
 hs.hotkey.bind(hyper, "g", function() posFullHeight(0.7, false) end)
--- right most 
+-- right most
 hs.hotkey.bind(hyper, "r", function() posFullHeight(0.7, true) end)
 
 -- left half
@@ -72,6 +72,33 @@ hs.hotkey.bind(hyper, "t", function() posFullHeight(0.5, false) end)
 hs.hotkey.bind(hyper, "n", function() posFullHeight(1.0, false) end)
 -- right half
 hs.hotkey.bind(hyper, "s", function() posFullHeight(0.5, true) end)
+
+
+---------------------------------------
+-- from https://github.com/cmsj/hammerspoon-config/blob/master/init.lua
+-- I always end up losing my mouse pointer, particularly if it's on a monitor full of terminals.
+-- This draws a bright red circle around the pointer for a few seconds
+function mouseHighlight()
+    if mouseCircle then
+        mouseCircle:delete()
+        if mouseCircleTimer then
+            mouseCircleTimer:stop()
+        end
+    end
+    mousepoint = hs.mouse.getAbsolutePosition()
+    mouseCircle = hs.drawing.circle(hs.geometry.rect(mousepoint.x-40, mousepoint.y-40, 80, 80))
+    mouseCircle:setStrokeColor({["red"]=1,["blue"]=0,["green"]=0,["alpha"]=1})
+    mouseCircle:setFill(false)
+    mouseCircle:setStrokeWidth(5)
+    mouseCircle:bringToFront(true)
+    mouseCircle:show(0.5)
+
+    mouseCircleTimer = hs.timer.doAfter(3, function()
+        mouseCircle:hide(0.5)
+        hs.timer.doAfter(0.6, function() mouseCircle:delete() end)
+    end)
+end
+hs.hotkey.bind(hyper, 'd', mouseHighlight)
 
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", reloadConfig)
