@@ -7,10 +7,27 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
   hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send()
 end)
 
-function launchApp(name)
-  local r = hs.application.launchOrFocus(name)
-  if not r then
-    hs.notify.new({title="Hammerspoon", informativeText="Unable to launch/focus " .. name}):send()
+function setContains(set, key)
+   return set[key] ~= nil
+end
+
+function launchApp(name, opts)
+  local doLaunch = false
+  if opts and opts.launch then
+    doLaunch = opts.launch
+  end
+  if doLaunch then
+    local r = hs.application.launchOrFocus(name)
+    if not r then
+      hs.notify.new({title="Hammerspoon", informativeText="Unable to launch/focus " .. name}):send()
+    end
+  else
+    local app = hs.application.find(name)
+    if app then
+      app:mainWindow():focus()
+    else
+      hs.notify.new({title="Hammerspoon", informativeText="Unable to focus " .. name .. " - maybe it isn't running."}):send()
+    end
   end
 end
 
@@ -22,15 +39,15 @@ hs.hotkey.bind(hyper, "f", function() launchApp("Firefox") end)
 hs.hotkey.bind(hyper, "m", function() launchApp("Microsoft Outlook") end)
 hs.hotkey.bind(hyper, "i", function() launchApp("/Users/outtenr/Applications/iTerm.app") end)
 hs.hotkey.bind(hyper, "x", function() launchApp("Terminal") end)
-hs.hotkey.bind(hyper, "o", function() launchApp("Jabber") end)
-hs.hotkey.bind(hyper, "c", function() launchApp("Opera") end)
+hs.hotkey.bind(hyper, "o", function() launchApp("Cisco Jabber", {launch = true} ) end)
+-- hs.hotkey.bind(hyper, "c", function() launchApp("Opera") end)
 hs.hotkey.bind(hyper, "l", function() launchApp("Safari") end)
 hs.hotkey.bind(hyper, "p", function() launchApp("Simplenote") end)
 hs.hotkey.bind(hyper, ".", function() launchApp("Todoist") end)
 hs.hotkey.bind(hyper, "y", function() launchApp("/Users/outtenr/Applications/Visual Studio Code.app") end)
 hs.hotkey.bind(hyper, "8", function() launchApp("LimeChat") end)
 hs.hotkey.bind(hyper, "9", function() launchApp("TiddlyDesktop") end)
-hs.hotkey.bind(hyper, "b", function() hs.application.launchOrFocus("Atom") end)
+hs.hotkey.bind(hyper, "b", function() launchApp("Atom") end)
 
 function listAppTitles()
   hs.fnutils.each(hs.application.runningApplications(), function(app) print("[" .. app:title() .. "]") end)
