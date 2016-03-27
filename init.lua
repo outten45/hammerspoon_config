@@ -59,8 +59,11 @@ function reloadConfig()
 end
 
 ---------------------------------------
--- positioning functions
-function posFullHeight(percentUsed, moveRight)
+-- posFullHeight
+--   Position window the full hight of the screen.
+--   ratioUsed: ratio between 0 - 1.0
+--   moveRight: move window to the right of screen
+function posFullHeight(ratioUsed, moveRight)
   local win = hs.window.focusedWindow()
   local f = win:frame()
   local screen = win:screen()
@@ -68,12 +71,12 @@ function posFullHeight(percentUsed, moveRight)
   local cur = screen:currentMode()
 
   if moveRight then
-    f.x = max.x + (cur.w * (1.0 - percentUsed))
+    f.x = max.x + (cur.w * (1.0 - ratioUsed))
   else
     f.x = max.x
   end
   f.y = max.y
-  f.w = max.w * percentUsed
+  f.w = max.w * ratioUsed
   f.h = max.h
   win:setFrame(f)
 end
@@ -90,6 +93,8 @@ hs.hotkey.bind(hyper, "n", function() posFullHeight(1.0, false) end)
 -- right half
 hs.hotkey.bind(hyper, "s", function() posFullHeight(0.5, true) end)
 
+-- bind right:ctrl;shift push right bar-resize:screenSizeX/3
+-- bind left:ctrl;shift  push left  bar-resize:screenSizeX/3
 
 ---------------------------------------
 -- from https://github.com/cmsj/hammerspoon-config/blob/master/init.lua
