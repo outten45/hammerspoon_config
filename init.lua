@@ -23,7 +23,7 @@ function launchApp(name, opts)
     end
   else
     local app = hs.application.find(name)
-    if app then
+    if app and app:mainWindow() then
       app:mainWindow():focus()
     else
       hs.notify.new({title="Hammerspoon", informativeText="Unable to focus " .. name .. " - maybe it isn't running."}):send()
@@ -132,3 +132,37 @@ end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", reloadConfig)
 hs.notify.new({title="Hammerspoon", informativeText="Reloaded config."}):send()
+
+----------------------------------------
+-- toggel status in Cisco Jabber between Available and in a meeting
+function toggleJabberMeetingStatus()
+  local app = hs.application.find("Jabber")
+  if not app then
+    hs.notify.new({title="Hammerspoon", informativeText="Unable to find Cisco Jabber"}):send()
+    return
+  end
+
+  local availableMenuStr =  {"File", "Status", "Available"}
+  local meetingMenuStr =   {"File", "Status", "in a meeting"}
+
+  local availableMenu = app:findMenuItem(availableMenuStr)
+  local availableChecked = false
+
+  if (availableMenu and availableMenu["ticked"]) then
+    print("available checked")
+    availableChecked = true
+  else
+    print("available not checked")
+    print(availableMenu)
+  end
+
+  if availableChecked then
+    app:selectMenuItem(meetingMenuStr)
+    hs.notify.new({title="Status", informativeText="in a meeting"}):send()
+  else
+    app:selectMenuItem(availableMenuStr)
+    hs.notify.new({title="Status", informativeText="Available"}):send()
+  end
+end
+
+hs.hotkey.bind(hyper, '2', toggleJabberMeetingStatus)
