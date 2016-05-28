@@ -31,6 +31,9 @@ function launchApp(name, opts)
   end
 end
 
+-- local safariBrowser = "Safari"
+local safariBrowser = "Safari Technology Preview"
+
 ---------------------------------------
 -- hotkey bindings for applications
 hs.hotkey.bind(hyper, "u", function() launchApp("Google Chrome") end)
@@ -41,13 +44,14 @@ hs.hotkey.bind(hyper, "i", function() launchApp("iTerm2") end)
 hs.hotkey.bind(hyper, "x", function() launchApp("Terminal", {launch = true}) end)
 hs.hotkey.bind(hyper, "o", function() launchApp("Jabber") end)
 -- hs.hotkey.bind(hyper, "c", function() launchApp("Opera") end)
-hs.hotkey.bind(hyper, "l", function() launchApp("Safari") end)
-hs.hotkey.bind(hyper, "p", function() launchApp("Simplenote") end)
+hs.hotkey.bind(hyper, "l", function() launchApp(safariBrowser) end)
 hs.hotkey.bind(hyper, ".", function() launchApp("Todoist", {launch = true}) end)
 hs.hotkey.bind(hyper, "y", function() launchApp("Code") end)
 hs.hotkey.bind(hyper, "8", function() launchApp("LimeChat") end)
 hs.hotkey.bind(hyper, "9", function() launchApp("TiddlyDesktop") end)
 hs.hotkey.bind(hyper, "b", function() launchApp("Atom") end)
+-- hs.hotkey.bind(hyper, "p", function() launchApp("Simplenote") end)
+hs.hotkey.bind(hyper, "p", function() launchApp("Microsoft OneNote") end)
 
 function listAppTitles()
   hs.fnutils.each(hs.application.runningApplications(), function(app) print("[" .. app:title() .. "]") end)
@@ -166,3 +170,7 @@ function toggleJabberMeetingStatus()
 end
 
 hs.hotkey.bind(hyper, '2', toggleJabberMeetingStatus)
+
+----------------------------------------
+-- screen saver to lock screen
+hs.hotkey.bind({"cmd","alt","ctrl"}, "L", hs.caffeinate.startScreensaver)
