@@ -52,6 +52,7 @@ hs.hotkey.bind(hyper, "9", function() launchApp("TiddlyDesktop") end)
 hs.hotkey.bind(hyper, "b", function() launchApp("Atom") end)
 -- hs.hotkey.bind(hyper, "p", function() launchApp("Simplenote") end)
 hs.hotkey.bind(hyper, "p", function() launchApp("Microsoft OneNote") end)
+hs.hotkey.bind(hyper, "3", function() launchApp("Vivaldi") end)
 
 function listAppTitles()
   hs.fnutils.each(hs.application.runningApplications(), function(app) print("[" .. app:title() .. "]") end)
